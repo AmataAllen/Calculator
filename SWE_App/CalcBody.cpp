@@ -1,4 +1,7 @@
 #include "CalcBody.h"
+#include <wx/string.h>
+#include <wx/tokenzr.h>
+#include <vector>
 
 wxBEGIN_EVENT_TABLE(CalcBody, wxFrame)
 EVT_BUTTON(10001, CalcBody::OnNumClicked)
@@ -16,9 +19,12 @@ EVT_BUTTON(10012, CalcBody::OnBinaryClicked)
 EVT_BUTTON(10013, CalcBody::OnBinaryClicked)
 EVT_BUTTON(10014, CalcBody::OnBinaryClicked)
 EVT_BUTTON(10015, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10016, CalcBody::OnEqualsClicked)
 EVT_BUTTON(10017, CalcBody::OnUnaryClicked)
 EVT_BUTTON(10018, CalcBody::OnUnaryClicked)
 EVT_BUTTON(10019, CalcBody::OnUnaryClicked)
+EVT_BUTTON(10020, CalcBody::OnClearClicked)
+EVT_BUTTON(10021, CalcBody::OnDeleteClicked)
 EVT_BUTTON(10022, CalcBody::OnDecimalClicked)
 EVT_BUTTON(10023, CalcBody::OnNegativeClicked)
 wxEND_EVENT_TABLE()
@@ -124,6 +130,116 @@ void CalcBody::OnUnaryClicked(wxCommandEvent& event)
 	{
 		textWindow->AppendText("tan");
 	}
+}
+
+void CalcBody::OnEqualsClicked(wxCommandEvent& event)
+{
+	wxString text = textWindow->GetValue();
+	std::vector<double>nums = ParseInput(text);
+
+	std::vector<wxChar> operators;
+
+	for (char c : text)
+	{
+		if (c == '+' or c == '-' or c == '*' or c == '/' or c == '%')
+		{
+			operators.push_back(c);
+		}
+	}
+	if (nums.size() - 1 != operators.size())
+	{
+		textWindow->SetValue("SYNTAXERROR");
+		return;
+	}
+
+	double result = nums[0];
+
+	for (size_t currDigit = 0; currDigit < operators.size(); currDigit++)
+	{
+		wxChar op = operators[currDigit];
+		double nextNum = nums[currDigit + 1];
+
+		switch (op)
+		{
+		case '+':
+		{
+			result += nextNum;
+			break;
+		}
+		case '-':
+		{
+			result -= nextNum;
+			break;
+		}
+		case '*':
+		{
+			result *= nextNum;
+			break;
+		}
+		case '/':
+		{
+			if (nextNum == 0)
+			{
+				textWindow->SetValue("SYNTAXERROR: CANNOT DIVIDE BY ZERO");
+				return;
+			}
+			result /= nextNum;
+			break;
+		}
+		case '%':
+		{
+			if (nextNum == 0)
+			{
+				textWindow->SetValue("SYNTAXERROR: CANNOT MOD BY ZERO");
+				return;
+			}
+			result = static_cast<int>(result) & static_cast<int>(nextNum);
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	if (result == static_cast<int>(result))
+	{
+		textWindow->SetValue(wxString::Format("%d", static_cast<int>(result)));
+	}
+	else
+	{
+		textWindow->SetValue(wxString::Format("%.2f", result));
+	}
+
+
+}
+
+void CalcBody::OnClearClicked(wxCommandEvent& event)
+{
+	textWindow->Clear();
+}
+
+void CalcBody::OnDeleteClicked(wxCommandEvent& event)
+{
+	wxString text = textWindow->GetValue();
+	if (!text.IsEmpty())
+	{
+		text.RemoveLast();
+		textWindow->SetValue(text);
+	}
+}
+
+std::vector<double> CalcBody::ParseInput(const wxString& input)
+{
+	wxStringTokenizer tokenizer(input, "+-*/%");
+	std::vector<double> nums;
+	wxString token;
+
+	while (tokenizer.HasMoreTokens())
+	{
+		token = tokenizer.GetNextToken();
+
+		nums.push_back(wxAtof(token));
+	}
+	return nums;
 }
 
 //void CalcBody::OnEqualsClicked(wxCommandEvent& event)

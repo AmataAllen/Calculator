@@ -50,10 +50,13 @@ public:
 
     void OnUnaryClicked(wxCommandEvent& event);
 
-    //void OnEqualsClicked(wxCommandEvent& event);
+    void OnEqualsClicked(wxCommandEvent& event);
 
     void OnClearClicked(wxCommandEvent& event);
 
+    void OnDeleteClicked(wxCommandEvent& event);
+
+    std::vector<double> ParseInput(const wxString& input);
 
 
     wxDECLARE_EVENT_TABLE();
