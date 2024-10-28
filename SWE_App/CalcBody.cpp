@@ -1,5 +1,28 @@
 #include "CalcBody.h"
 
+wxBEGIN_EVENT_TABLE(CalcBody, wxFrame)
+EVT_BUTTON(10001, CalcBody::OnNumClicked)
+EVT_BUTTON(10002, CalcBody::OnNumClicked)
+EVT_BUTTON(10003, CalcBody::OnNumClicked)
+EVT_BUTTON(10004, CalcBody::OnNumClicked)
+EVT_BUTTON(10005, CalcBody::OnNumClicked)
+EVT_BUTTON(10006, CalcBody::OnNumClicked)
+EVT_BUTTON(10007, CalcBody::OnNumClicked)
+EVT_BUTTON(10008, CalcBody::OnNumClicked)
+EVT_BUTTON(10009, CalcBody::OnNumClicked)
+EVT_BUTTON(10010, CalcBody::OnNumClicked)
+EVT_BUTTON(10011, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10012, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10013, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10014, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10015, CalcBody::OnBinaryClicked)
+EVT_BUTTON(10017, CalcBody::OnUnaryClicked)
+EVT_BUTTON(10018, CalcBody::OnUnaryClicked)
+EVT_BUTTON(10019, CalcBody::OnUnaryClicked)
+EVT_BUTTON(10022, CalcBody::OnDecimalClicked)
+EVT_BUTTON(10023, CalcBody::OnNegativeClicked)
+wxEND_EVENT_TABLE()
+
 CalcBody::CalcBody() : wxFrame(nullptr, wxID_ANY, "CalculatorBody", wxPoint(100, 100), wxSize(300, 200))
 {
 	//button1 = new wxButton(this,10001,"Click on Me",wxPoint(50,50),wxSize(75,25));
@@ -43,6 +66,66 @@ CalcBody::CalcBody() : wxFrame(nullptr, wxID_ANY, "CalculatorBody", wxPoint(100,
 
 
 
-
 	// repeat above till all buttons are accounted for
 }
+
+void CalcBody::OnNumClicked(wxCommandEvent& event)
+{
+	int num = event.GetId() - 10001;
+	textWindow->AppendText(std::to_string(num));
+}
+
+void CalcBody::OnBinaryClicked(wxCommandEvent& event)
+{
+	if (event.GetId() == 10011)
+	{
+		textWindow->AppendText("+");
+	}
+	if (event.GetId() == 10012)
+	{
+		textWindow->AppendText("-");
+	}
+	if (event.GetId() == 10013)
+	{
+		textWindow->AppendText("*");
+	}
+	if (event.GetId() == 10014)
+	{
+		textWindow->AppendText("/");
+	}
+	if (event.GetId() == 10015)
+	{
+		textWindow->AppendText("%");
+	}
+
+}
+
+void CalcBody::OnDecimalClicked(wxCommandEvent& event)
+{
+	textWindow->AppendText(".");
+}
+
+void CalcBody::OnNegativeClicked(wxCommandEvent& event)
+{
+	textWindow->AppendText("-");
+}
+
+void CalcBody::OnUnaryClicked(wxCommandEvent& event)
+{
+	if (event.GetId() == 10017)
+	{
+		textWindow->AppendText("sin");
+	}
+	if (event.GetId() == 10018)
+	{
+		textWindow->AppendText("cos");
+	}
+	if (event.GetId() == 10019)
+	{
+		textWindow->AppendText("tan");
+	}
+}
+
+//void CalcBody::OnEqualsClicked(wxCommandEvent& event)
+//{
+//}

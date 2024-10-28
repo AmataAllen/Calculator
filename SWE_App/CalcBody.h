@@ -40,5 +40,23 @@ private:
 public:
     CalcBody();
 
+    void OnNumClicked(wxCommandEvent& event);
+
+    void OnBinaryClicked(wxCommandEvent& event);
+
+    void OnDecimalClicked(wxCommandEvent& event);
+
+    void OnNegativeClicked(wxCommandEvent& event);
+
+    void OnUnaryClicked(wxCommandEvent& event);
+
+    //void OnEqualsClicked(wxCommandEvent& event);
+
+    void OnClearClicked(wxCommandEvent& event);
+
+
+
+    wxDECLARE_EVENT_TABLE();
+
 };
 
