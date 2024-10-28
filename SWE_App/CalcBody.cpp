@@ -4,29 +4,29 @@
 #include <vector>
 
 wxBEGIN_EVENT_TABLE(CalcBody, wxFrame)
-EVT_BUTTON(10001, CalcBody::OnNumClicked)
-EVT_BUTTON(10002, CalcBody::OnNumClicked)
-EVT_BUTTON(10003, CalcBody::OnNumClicked)
-EVT_BUTTON(10004, CalcBody::OnNumClicked)
-EVT_BUTTON(10005, CalcBody::OnNumClicked)
-EVT_BUTTON(10006, CalcBody::OnNumClicked)
-EVT_BUTTON(10007, CalcBody::OnNumClicked)
-EVT_BUTTON(10008, CalcBody::OnNumClicked)
-EVT_BUTTON(10009, CalcBody::OnNumClicked)
-EVT_BUTTON(10010, CalcBody::OnNumClicked)
-EVT_BUTTON(10011, CalcBody::OnBinaryClicked)
-EVT_BUTTON(10012, CalcBody::OnBinaryClicked)
-EVT_BUTTON(10013, CalcBody::OnBinaryClicked)
-EVT_BUTTON(10014, CalcBody::OnBinaryClicked)
-EVT_BUTTON(10015, CalcBody::OnBinaryClicked)
-EVT_BUTTON(10016, CalcBody::OnEqualsClicked)
-EVT_BUTTON(10017, CalcBody::OnUnaryClicked)
-EVT_BUTTON(10018, CalcBody::OnUnaryClicked)
-EVT_BUTTON(10019, CalcBody::OnUnaryClicked)
-EVT_BUTTON(10020, CalcBody::OnClearClicked)
-EVT_BUTTON(10021, CalcBody::OnDeleteClicked)
-EVT_BUTTON(10022, CalcBody::OnDecimalClicked)
-EVT_BUTTON(10023, CalcBody::OnNegativeClicked)
+EVT_BUTTON(wxID_ANY, CalcBody::OnButtonClicked)
+//EVT_BUTTON(10002, CalcBody::OnNumClicked)
+//EVT_BUTTON(10003, CalcBody::OnNumClicked)
+//EVT_BUTTON(10004, CalcBody::OnNumClicked)
+//EVT_BUTTON(10005, CalcBody::OnNumClicked)
+//EVT_BUTTON(10006, CalcBody::OnNumClicked)
+//EVT_BUTTON(10007, CalcBody::OnNumClicked)
+//EVT_BUTTON(10008, CalcBody::OnNumClicked)
+//EVT_BUTTON(10009, CalcBody::OnNumClicked)
+//EVT_BUTTON(10010, CalcBody::OnNumClicked)
+//EVT_BUTTON(wxID_ANY, CalcBody::OnBinaryClicked)
+//EVT_BUTTON(10012, CalcBody::OnBinaryClicked)
+//EVT_BUTTON(10013, CalcBody::OnBinaryClicked)
+//EVT_BUTTON(10014, CalcBody::OnBinaryClicked)
+//EVT_BUTTON(10015, CalcBody::OnBinaryClicked)
+//EVT_BUTTON(10016, CalcBody::OnEqualsClicked)
+//EVT_BUTTON(10017, CalcBody::OnUnaryClicked)
+//EVT_BUTTON(10018, CalcBody::OnUnaryClicked)
+//EVT_BUTTON(10019, CalcBody::OnUnaryClicked)
+//EVT_BUTTON(10020, CalcBody::OnClearClicked)
+//EVT_BUTTON(10021, CalcBody::OnDeleteClicked)
+//EVT_BUTTON(10022, CalcBody::OnDecimalClicked)
+//EVT_BUTTON(10023, CalcBody::OnNegativeClicked)
 wxEND_EVENT_TABLE()
 
 CalcBody::CalcBody() : wxFrame(nullptr, wxID_ANY, "CalculatorBody", wxPoint(100, 100), wxSize(300, 200))
@@ -36,7 +36,7 @@ CalcBody::CalcBody() : wxFrame(nullptr, wxID_ANY, "CalculatorBody", wxPoint(100,
 	//textWindow = new wxTextCtrl(this, 10000, wxPoint(50, 50), wxSize(50, 500));
 	textWindow = new wxTextCtrl(this, 10000, wxEmptyString, wxPoint(50,50), wxSize(500,100));
 
-	zeroButton = new wxButton(this, 10001, "0", wxPoint(50, 200), wxSize(50, 50));
+	/*zeroButton = ButtonFactory::CreateAdditionButton(this, wxPoint(50, 50));
 	oneButton = new wxButton(this, 10002, "1", wxPoint(100, 200), wxSize(50, 50));
 	twoButton = new wxButton(this, 10003, "2", wxPoint(150, 200), wxSize(50, 50));
 
@@ -68,18 +68,70 @@ CalcBody::CalcBody() : wxFrame(nullptr, wxID_ANY, "CalculatorBody", wxPoint(100,
 
 	decimalButton = new wxButton(this, 10022, ".", wxPoint(150, 400), wxSize(50, 50));
 
-	negativeButton = new wxButton(this, 10023, "-x", wxPoint(200, 400), wxSize(50, 50));
+	negativeButton = new wxButton(this, 10023, "-x", wxPoint(200, 400), wxSize(50, 50));*/
 
 
 
 	// repeat above till all buttons are accounted for
 }
 
-void CalcBody::OnNumClicked(wxCommandEvent& event)
+void CalcBody::CreateButton()
 {
-	int num = event.GetId() - 10001;
-	textWindow->AppendText(std::to_string(num));
+	int buttonWidth = 50;
+	int buttonHeight = 50;
+	int posX = 50;
+	int posY = 200;
+
+	for (int currNum = 0; currNum <= 9; currNum++)
+	{
+		wxButton* numButton = ButtonFactory::CreateNumButton(this, currNum, wxPoint(posX, posY));
+
+		posX += 50;
+		if ((currNum + 1) % 3 == 0)
+		{
+			posX = 50;
+			posY += 50;
+		}
+	}
+	wxButton* additionButton = ButtonFactory::CreateAdditionButton(this, wxPoint(50, 350));
+	wxButton* subtractionButton = ButtonFactory::CreateSubtractionButton(this, wxPoint(150, 350));
+	wxButton* multiplicationButton = ButtonFactory::CreateMultiplicationButton(this, wxPoint(200, 200));
+	wxButton* divisionButton = ButtonFactory::CreateDivisionButton(this, wxPoint(200, 250));
+	wxButton* moduloButton = ButtonFactory::CreateModuloButton(this, wxPoint(200, 300));
+
+	wxButton* equalsButton = ButtonFactory::CreateEqualsButton(this, wxPoint(200, 350));
+
+	wxButton* sinButton = ButtonFactory::CreateSinButton(this, wxPoint(250, 200));
+	wxButton* cosButton = ButtonFactory::CreateCosButton(this, wxPoint(250, 250));
+	wxButton* tanButton = ButtonFactory::CreateTanButton(this, wxPoint(250, 300));
+
+	wxButton* clearButton = ButtonFactory::CreateClearButton(this, wxPoint(250, 350));
+
+	wxButton* delButton = ButtonFactory::CreateDeleteButton(this, wxPoint(100, 400));
+
+	wxButton* decimalButton = ButtonFactory::CreateDecimalButton(this, wxPoint(150, 400));
+
+	wxButton* negativeButton = ButtonFactory::CreateNegativeButton(this, wxPoint(200, 400));
+
+	sinButton->Bind(wxEVT_BUTTON, &CalcBody::OnUnaryClicked, this);
+	cosButton->Bind(wxEVT_BUTTON, &CalcBody::OnUnaryClicked, this);
+	tanButton->Bind(wxEVT_BUTTON, &CalcBody::OnUnaryClicked, this);
+	clearButton->Bind(wxEVT_BUTTON, &CalcBody::OnClearClicked, this);
+	delButton->Bind(wxEVT_BUTTON, &CalcBody::OnDeleteClicked, this);
+	decimalButton->Bind(wxEVT_BUTTON, &CalcBody::OnDecimalClicked, this);
+	negativeButton->Bind(wxEVT_BUTTON, &CalcBody::OnNegativeClicked, this);
+	
 }
+
+void CalcBody::OnButtonClicked(wxCommandEvent& event)
+{
+}
+
+//void CalcBody::OnNumClicked(wxCommandEvent& event)
+//{
+//	int num = event.GetId() - 10001;
+//	textWindow->AppendText(std::to_string(num));
+//}
 
 void CalcBody::OnBinaryClicked(wxCommandEvent& event)
 {

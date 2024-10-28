@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
+    <ClInclude Include="ButtonFactory.h" />
     <ClInclude Include="CalcBody.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="ButtonFactory.cpp" />
     <ClCompile Include="CalcBody.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

@@ -1,5 +1,6 @@
 #pragma once
 #include "wx/wx.h"
+#include "ButtonFactory.h"
 class CalcBody :
     public wxFrame
 {
@@ -7,7 +8,8 @@ private:
     //wxButton* button1 = nullptr;
     //wxButton* button2 = nullptr;
     wxTextCtrl* textWindow = nullptr;
-    wxButton* zeroButton = nullptr;
+
+  /*wxButton* zeroButton = nullptr;
     wxButton* oneButton = nullptr;
     wxButton* twoButton = nullptr;
     wxButton* threeButton = nullptr;
@@ -36,11 +38,15 @@ private:
 
     wxButton* decimalButton = nullptr;
 
-    wxButton* negativeButton = nullptr;
+    wxButton* negativeButton = nullptr;*/
 public:
     CalcBody();
 
-    void OnNumClicked(wxCommandEvent& event);
+    void CreateButton();
+
+    void OnButtonClicked(wxCommandEvent& event);
+
+    /*void OnNumClicked(wxCommandEvent& event);
 
     void OnBinaryClicked(wxCommandEvent& event);
 
@@ -54,7 +60,7 @@ public:
 
     void OnClearClicked(wxCommandEvent& event);
 
-    void OnDeleteClicked(wxCommandEvent& event);
+    void OnDeleteClicked(wxCommandEvent& event);*/
 
     std::vector<double> ParseInput(const wxString& input);
 
